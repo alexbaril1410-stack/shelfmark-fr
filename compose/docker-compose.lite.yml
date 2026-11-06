@@ -1,6 +1,6 @@
 services:
   shelfmark-lite:
-    image: ghcr.io/calibrain/shelfmark-lite:latest
+    image: ghcr.io/alexbaril1410-stack/shelfmark-fr-lite:feature-fr-audible-zero-seeders
     container_name: shelfmark-lite
     environment:
       # EXT_BYPASSER_URL: http://flaresolverr:8191 #If using Flaresolverr
