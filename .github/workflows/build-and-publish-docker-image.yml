@@ -1,6 +1,8 @@
 name: Create and publish Docker images
 on:
   push:
+    branches:
+      - feature/fr-audible-zero-seeders
     tags:
       - 'v*'
   # Also dispatched on main by dev-image-debounce.yml, once main has been
@@ -10,7 +12,7 @@ permissions: read-all
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository_owner }}/shelfmark
+  IMAGE_NAME: ${{ github.repository }}
 jobs:
   build-and-push-images:
     runs-on: ubuntu-latest
@@ -54,6 +56,7 @@ jobs:
           tags: |
             type=raw,value=dev,enable={{is_default_branch}}
             type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/') }}
+            type=ref,event=branch
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=sha
