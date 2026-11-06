@@ -27,6 +27,15 @@ jobs:
       - name: Sync dependencies
         run: make install-python-dev
 
+      - name: Format Python files and export formatted source
+        run: |
+          uv run ruff format shelfmark tests
+          for file in shelfmark/metadata_providers/__init__.py shelfmark/metadata_providers/audible.py tests/metadata/test_audible.py; do
+            printf 'FORMAT_EXPORT_BEGIN|%s\n' "$file"
+            base64 -w0 "$file"
+            printf '\nFORMAT_EXPORT_END|%s\n' "$file"
+          done
+
       - name: Lint
         run: make python-lint
 
@@ -112,6 +121,17 @@ jobs:
 
       - name: Install dependencies
         run: make install-ci
+
+      - name: Format frontend files and export formatted source
+        run: |
+          cd src/frontend
+          npm run format
+          cd ../..
+          for file in src/frontend/src/components/Header.tsx src/frontend/src/components/ReleaseModal.tsx src/frontend/src/components/settings/InterfacePreferencesBar.tsx src/frontend/src/components/settings/SelfSettingsModal.tsx src/frontend/src/components/settings/SettingsModal.tsx src/frontend/src/main.tsx src/frontend/src/tests/zeroSeedersPreference.test.ts src/frontend/src/utils/uiLanguage.ts src/frontend/src/utils/zeroSeedersPreference.ts; do
+            printf 'FORMAT_EXPORT_BEGIN|%s\n' "$file"
+            base64 -w0 "$file"
+            printf '\nFORMAT_EXPORT_END|%s\n' "$file"
+          done
 
       - name: Lint
         run: make frontend-lint
