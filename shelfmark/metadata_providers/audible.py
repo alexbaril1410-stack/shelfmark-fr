@@ -17,7 +17,6 @@ from typing import Any, ClassVar
 import requests
 
 from shelfmark.core.cache import cacheable
-from shelfmark.core.config import config as app_config
 from shelfmark.core.languages import normalize_language
 from shelfmark.core.logger import setup_logger
 from shelfmark.core.settings_registry import (
@@ -227,10 +226,6 @@ class AudibleProvider(MetadataProvider):
         title = _text(options.fields.get("title"))
         if author or title:
             query = " ".join(value for value in (author, title) if value)
-        elif options.search_type == SearchType.TITLE:
-            query = options.query
-        elif options.search_type == SearchType.AUTHOR:
-            query = options.query
         else:
             query = options.query
 

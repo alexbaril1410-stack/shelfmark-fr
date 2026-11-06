@@ -4,7 +4,6 @@ from shelfmark.core.cache import get_metadata_cache
 from shelfmark.metadata_providers import MetadataSearchOptions, SearchType, get_provider
 from shelfmark.metadata_providers.audible import AudibleProvider
 
-
 ASIN = "B012345678"
 
 
