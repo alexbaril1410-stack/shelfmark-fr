@@ -139,7 +139,13 @@ def _test_audible_connection() -> dict[str, Any]:
         provider = AudibleProvider()
         data = provider._request(
             "/catalog/products",
-            {"keywords": "test", "num_results": 1, "page": 1, "response_groups": "media"},
+            {
+                "keywords": "test",
+                "num_results": 1,
+                "page": 1,
+                "products_sort_by": "Relevance",
+                "response_groups": "media",
+            },
         )
     except _AudibleRequestError:
         return {"success": False, "message": "Audible.fr catalog API is not reachable"}
@@ -203,7 +209,9 @@ class AudibleProvider(MetadataProvider):
     @cacheable(
         ttl_key="METADATA_CACHE_SEARCH_TTL",
         ttl_default=900,
-        key_prefix="audible:search",
+        # Bump the key prefix so empty results cached from the old, invalid
+        # title/author query parameters are not served after upgrading.
+        key_prefix="audible:search:v2",
     )
     def _search_cached(
         self, cache_key: str, options: MetadataSearchOptions
@@ -213,23 +221,22 @@ class AudibleProvider(MetadataProvider):
             "page": options.page,
             "response_groups": "contributors,media,product_desc,product_attrs,product_extended_attrs,series",
             "image_sizes": "100",
+            "products_sort_by": "Relevance",
         }
         author = _text(options.fields.get("author"))
         title = _text(options.fields.get("title"))
         if author or title:
-            if author:
-                params["author"] = author
-            if title:
-                params["title"] = title
+            query = " ".join(value for value in (author, title) if value)
         elif options.search_type == SearchType.TITLE:
-            params["title"] = options.query
+            query = options.query
         elif options.search_type == SearchType.AUTHOR:
-            params["author"] = options.query
+            query = options.query
         else:
-            params["keywords"] = options.query
+            query = options.query
 
-        if options.language:
-            params["language"] = options.language
+        # Audible's catalog endpoint searches through `keywords`; it does not use
+        # the title/author parameters exposed by some third-party API clients.
+        params["keywords"] = query
 
         data = self._request("/catalog/products", params)
         products = data.get("products") if isinstance(data, dict) else None
@@ -427,4 +434,3 @@ def audible_settings() -> list[SettingsField]:
             callback=_test_audible_connection,
         ),
     ]
-

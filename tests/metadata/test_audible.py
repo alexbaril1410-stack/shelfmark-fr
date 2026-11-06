@@ -113,11 +113,33 @@ def test_search_uses_capped_paged_catalog_query_and_maps_results(monkeypatch):
     assert result.books[0].provider_id == ASIN
     url, kwargs = session.calls[0]
     assert url == "https://api.audible.fr/1.0/catalog/products"
-    assert kwargs["params"]["title"] == "Le Petit Prince"
+    assert kwargs["params"]["keywords"] == "Le Petit Prince"
+    assert kwargs["params"]["products_sort_by"] == "Relevance"
+    assert "title" not in kwargs["params"]
+    assert "author" not in kwargs["params"]
     assert kwargs["params"]["num_results"] == 50
     assert kwargs["params"]["page"] == 2
-    assert kwargs["params"]["language"] == "fr"
     assert kwargs["timeout"] == 15
+
+
+def test_search_combines_provider_title_and_author_fields_as_keywords(monkeypatch):
+    _allow_requests(monkeypatch)
+    get_metadata_cache().clear()
+    provider = AudibleProvider()
+    session = _Session({"total_results": 0, "products": []})
+    provider.session = session
+
+    provider.search_paginated(
+        MetadataSearchOptions(
+            query="ignored",
+            fields={"author": "Antoine de Saint-Exupéry", "title": "Le Petit Prince"},
+        )
+    )
+
+    assert (
+        session.calls[0][1]["params"]["keywords"]
+        == "Antoine de Saint-Exupéry Le Petit Prince"
+    )
 
 
 def test_get_book_rejects_invalid_asin_without_network_request():
@@ -148,4 +170,3 @@ def test_request_failures_return_empty_search_results(monkeypatch):
     provider.session = _Session(requests.Timeout("timed out"))
 
     assert provider.search(MetadataSearchOptions(query="test")) == []
-

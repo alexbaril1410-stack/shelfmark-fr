@@ -1,6 +1,8 @@
 name: CI
 
 on:
+  push:
+    branches: [feature/fr-audible-zero-seeders]
   pull_request:
     branches: [main]
 

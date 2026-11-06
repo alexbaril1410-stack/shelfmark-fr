@@ -10,6 +10,7 @@ import { getAdminSettingsOverridesSummary, getSettingsTab } from '../../services
 import { SettingsContent } from './SettingsContent';
 import { SettingsHeader } from './SettingsHeader';
 import { SettingsSidebar } from './SettingsSidebar';
+import { InterfacePreferencesBar } from './InterfacePreferencesBar';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -480,6 +481,7 @@ const SettingsModalSession = ({
           {!showMobileDetail ? (
             <>
               <SettingsHeader title="Settings" onClose={handleClose} />
+              <InterfacePreferencesBar />
               <SettingsSidebar
                 tabs={tabs}
                 groups={groups}
@@ -496,6 +498,7 @@ const SettingsModalSession = ({
                 onBack={handleBack}
                 onClose={handleClose}
               />
+              <InterfacePreferencesBar />
               {currentTabContent}
             </>
           )}
@@ -524,6 +527,7 @@ const SettingsModalSession = ({
         aria-label="Settings"
       >
         <SettingsHeader title="Settings" onClose={handleClose} />
+        <InterfacePreferencesBar />
 
         <div className="flex min-h-0 flex-1">
           <SettingsSidebar

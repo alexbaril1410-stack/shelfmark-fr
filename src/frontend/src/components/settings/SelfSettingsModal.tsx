@@ -16,6 +16,7 @@ import {
 } from '../../utils/themePreference';
 import { SelectField } from './fields';
 import { FieldWrapper } from './shared';
+import { InterfacePreferencesBar } from './InterfacePreferencesBar';
 import {
   DEFAULT_SELF_USER_OVERRIDE_SECTIONS,
   normalizeUserOverrideSections,
@@ -318,6 +319,8 @@ const SelfSettingsModalSession = ({
             </button>
           </div>
         </header>
+
+        <InterfacePreferencesBar />
 
         <div className="flex-1 overflow-y-auto px-6 py-5">
           {(() => {

@@ -18,6 +18,8 @@ Metadata providers allow searching for books and retrieving detailed metadata (t
 | **Moly.hu** | No | Hungarian book catalog, read from the web pages. No API key required |
 | **Audible.fr** | No | Audiobook catalog search for France; undocumented endpoint, opt-in and rate limited |
 
+To use Audible.fr, enable it under **Settings → Metadata Providers → Audible.fr**, then select it as the audiobook metadata provider in search preferences. Its catalog endpoint expects search terms in the `keywords` parameter; separate `title` and `author` query parameters are not supported. Requests use Audible.fr's catalog only, are cached and rate limited, and each result links back to Audible.fr.
+
 
 ## Core Components
 
@@ -326,4 +328,3 @@ Provider settings are stored in `CONFIG_DIR/plugins/<provider_name>.json` and ma
 | `METADATA_PROVIDER` | `""` | Active metadata provider name |
 | `METADATA_CACHE_SEARCH_TTL` | `3600` | Search cache TTL in seconds |
 | `METADATA_CACHE_BOOK_TTL` | `86400` | Book lookup cache TTL in seconds |
-
