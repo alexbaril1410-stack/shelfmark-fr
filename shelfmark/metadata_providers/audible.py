@@ -117,7 +117,11 @@ def _category_names(value: object) -> list[str]:
         ladder = category.get("ladder")
         if isinstance(ladder, list):
             for item in ladder:
-                if isinstance(item, dict) and (name := _text(item.get("name"))) and name not in names:
+                if (
+                    isinstance(item, dict)
+                    and (name := _text(item.get("name")))
+                    and name not in names
+                ):
                     names.append(name)
     return names[:8]
 
@@ -240,7 +244,7 @@ class AudibleProvider(MetadataProvider):
         books = [book for product in products if (book := self._parse_product(product))]
         try:
             total = max(0, int(data.get("total_results", 0)))
-        except (TypeError, ValueError):
+        except TypeError, ValueError:
             total = 0
         return books, total
 
@@ -348,12 +352,14 @@ class AudibleProvider(MetadataProvider):
         isbn_10 = isbn if len(isbn) == 10 else None
         isbn_13 = isbn if len(isbn) == 13 else None
         series = product.get("series")
-        first_series = series[0] if isinstance(series, list) and series and isinstance(series[0], dict) else {}
+        first_series = (
+            series[0] if isinstance(series, list) and series and isinstance(series[0], dict) else {}
+        )
         series_name = _text(first_series.get("title"))
         sequence = first_series.get("sequence")
         try:
             series_position = float(sequence) if sequence not in (None, "") else None
-        except (TypeError, ValueError):
+        except TypeError, ValueError:
             series_position = None
 
         display_fields: list[DisplayField] = []

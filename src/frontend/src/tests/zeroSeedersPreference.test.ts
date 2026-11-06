@@ -33,4 +33,3 @@ describe('zeroSeedersPreference', () => {
     expect(shouldShowZeroSeeders(undefined, false)).toBe(true);
   });
 });
-

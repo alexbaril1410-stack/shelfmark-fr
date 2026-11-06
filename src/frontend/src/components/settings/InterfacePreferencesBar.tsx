@@ -1,14 +1,7 @@
 import { useState } from 'react';
 
-import {
-  getStoredUiLanguage,
-  setUiLanguage,
-  type UiLanguage,
-} from '../../utils/uiLanguage';
-import {
-  getStoredShowZeroSeeders,
-  storeShowZeroSeeders,
-} from '../../utils/zeroSeedersPreference';
+import { getStoredUiLanguage, setUiLanguage, type UiLanguage } from '../../utils/uiLanguage';
+import { getStoredShowZeroSeeders, storeShowZeroSeeders } from '../../utils/zeroSeedersPreference';
 
 export const InterfacePreferencesBar = () => {
   const [language, setLanguage] = useState<UiLanguage>(getStoredUiLanguage);

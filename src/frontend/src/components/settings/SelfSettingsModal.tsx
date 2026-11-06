@@ -15,8 +15,8 @@ import {
   THEME_FIELD,
 } from '../../utils/themePreference';
 import { SelectField } from './fields';
-import { FieldWrapper } from './shared';
 import { InterfacePreferencesBar } from './InterfacePreferencesBar';
+import { FieldWrapper } from './shared';
 import {
   DEFAULT_SELF_USER_OVERRIDE_SECTIONS,
   normalizeUserOverrideSections,

@@ -135,10 +135,7 @@ def test_search_combines_provider_title_and_author_fields_as_keywords(monkeypatc
         )
     )
 
-    assert (
-        session.calls[0][1]["params"]["keywords"]
-        == "Antoine de Saint-Exupéry Le Petit Prince"
-    )
+    assert session.calls[0][1]["params"]["keywords"] == "Antoine de Saint-Exupéry Le Petit Prince"
 
 
 def test_get_book_rejects_invalid_asin_without_network_request():

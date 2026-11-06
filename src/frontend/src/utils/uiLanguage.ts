@@ -3,19 +3,19 @@ export type UiLanguage = 'en' | 'fr';
 export const UI_LANGUAGE_STORAGE_KEY = 'shelfmark-ui-language';
 
 const french: Record<string, string> = {
-  'Search': 'Rechercher',
-  'Settings': 'Paramètres',
-  'Downloads': 'Téléchargements',
+  Search: 'Rechercher',
+  Settings: 'Paramètres',
+  Downloads: 'Téléchargements',
   'My Account': 'Mon compte',
   'Report a Bug': 'Signaler un bug',
   'Sign Out': 'Se déconnecter',
   'Go To Library': 'Aller à la bibliothèque',
-  'Library': 'Bibliothèque',
-  'Activity': 'Activité',
-  'Debug': 'Débogage',
-  'Restart': 'Redémarrer',
+  Library: 'Bibliothèque',
+  Activity: 'Activité',
+  Debug: 'Débogage',
+  Restart: 'Redémarrer',
   'Download as': 'Télécharger en tant que',
-  'Myself': 'Moi-même',
+  Myself: 'Moi-même',
   'Loading users...': 'Chargement des utilisateurs…',
   'Loading user details...': 'Chargement du profil…',
   'Loading settings...': 'Chargement des paramètres…',
@@ -25,16 +25,16 @@ const french: Record<string, string> = {
   'No users yet.': 'Aucun utilisateur pour le moment.',
   'No results found.': 'Aucun résultat.',
   'No cover available': 'Aucune couverture disponible',
-  'Apply': 'Appliquer',
-  'Save': 'Enregistrer',
-  'Cancel': 'Annuler',
-  'Close': 'Fermer',
-  'Retry': 'Réessayer',
+  Apply: 'Appliquer',
+  Save: 'Enregistrer',
+  Cancel: 'Annuler',
+  Close: 'Fermer',
+  Retry: 'Réessayer',
   'Select an option': 'Choisir une option',
   'Select...': 'Choisir…',
-  'Format': 'Format',
-  'Language': 'Langue',
-  'Indexers': 'Indexeurs',
+  Format: 'Format',
+  Language: 'Langue',
+  Indexers: 'Indexeurs',
   'Search Mode': 'Mode de recherche',
   'Search by': 'Rechercher par',
   'Search context': 'Contexte de recherche',
@@ -59,72 +59,78 @@ const french: Record<string, string> = {
   'Series #': 'N° de série',
   'Search in library': 'Rechercher dans la bibliothèque',
   'Search results': 'Résultats de recherche',
-  'Results': 'Résultats',
-  'Page': 'Page',
-  'Next': 'Suivant',
-  'Previous': 'Précédent',
-  'More': 'Plus',
-  'Less': 'Moins',
+  Results: 'Résultats',
+  Page: 'Page',
+  Next: 'Suivant',
+  Previous: 'Précédent',
+  More: 'Plus',
+  Less: 'Moins',
   'Sort by': 'Trier par',
-  'Title': 'Titre',
-  'Author': 'Auteur',
-  'Authors': 'Auteurs',
-  'Narrator': 'Narrateur',
-  'Description': 'Description',
-  'ISBN': 'ISBN',
-  'Series': 'Série',
-  'Year': 'Année',
-  'Publisher': 'Éditeur',
-  'Files': 'Fichiers',
-  'Source': 'Source',
-  'Default': 'Par défaut',
+  Title: 'Titre',
+  Author: 'Auteur',
+  Authors: 'Auteurs',
+  Narrator: 'Narrateur',
+  Description: 'Description',
+  ISBN: 'ISBN',
+  Series: 'Série',
+  Year: 'Année',
+  Publisher: 'Éditeur',
+  Files: 'Fichiers',
+  Source: 'Source',
+  Default: 'Par défaut',
   'Not supported': 'Non pris en charge',
-  'Requested': 'Demandé',
+  Requested: 'Demandé',
   'User Preferences': 'Préférences utilisateur',
-  'Theme': 'Thème',
+  Theme: 'Thème',
   'Choose your preferred color scheme.': 'Choisissez votre thème de couleurs.',
   'Save Changes': 'Enregistrer les modifications',
   'Are you sure?': 'Confirmer ?',
-  'Confirm': 'Confirmer',
+  Confirm: 'Confirmer',
   'Settings saved': 'Paramètres enregistrés',
   'Search Preferences': 'Préférences de recherche',
   'Enable Audible.fr': 'Activer Audible.fr',
-  'Enable Audible.fr as a metadata provider for audiobook searches.': 'Autoriser Audible.fr comme fournisseur de métadonnées pour les recherches de livres audio.',
-  "Audiobook metadata from Audible.fr's catalog search endpoint. This endpoint is undocumented and may change; only search requests are made, results are cached, and each item links back to Audible.fr. No Audible account is required.": 'Métadonnées de livres audio provenant du catalogue Audible.fr. Ce point d’accès n’est pas documenté et peut changer. Les recherches sont mises en cache et chaque résultat renvoie vers Audible.fr. Aucun compte Audible n’est nécessaire.',
+  'Enable Audible.fr as a metadata provider for audiobook searches.':
+    'Autoriser Audible.fr comme fournisseur de métadonnées pour les recherches de livres audio.',
+  "Audiobook metadata from Audible.fr's catalog search endpoint. This endpoint is undocumented and may change; only search requests are made, results are cached, and each item links back to Audible.fr. No Audible account is required.":
+    'Métadonnées de livres audio provenant du catalogue Audible.fr. Ce point d’accès n’est pas documenté et peut changer. Les recherches sont mises en cache et chaque résultat renvoie vers Audible.fr. Aucun compte Audible n’est nécessaire.',
   'Test Connection': 'Tester la connexion',
-  'Audiobook metadata from Audible.fr catalog search. No Audible account is required.': 'Métadonnées de livres audio du catalogue Audible.fr. Aucun compte Audible n’est requis.',
+  'Audiobook metadata from Audible.fr catalog search. No Audible account is required.':
+    'Métadonnées de livres audio du catalogue Audible.fr. Aucun compte Audible n’est requis.',
   'Connected to the Audible.fr catalog': 'Connexion au catalogue Audible.fr réussie',
   'Audible.fr catalog API is not reachable': 'Le catalogue Audible.fr est inaccessible',
-  'Audible.fr returned an unexpected catalog response': 'Audible.fr a renvoyé une réponse inattendue',
+  'Audible.fr returned an unexpected catalog response':
+    'Audible.fr a renvoyé une réponse inattendue',
   'Show results with 0 seeders': 'Afficher les résultats avec 0 seeders',
   'Hide results with 0 seeders': 'Masquer les résultats sans seeders',
   'Searching…': 'Recherche…',
   'Search Settings': 'Préférences de recherche',
-  'UI language': "Langue de l’interface",
-  'Interface language': "Langue de l’interface",
-  'Interface preferences': "Préférences de l’interface",
-  'English': 'Anglais',
-  'French': 'Français',
+  'UI language': 'Langue de l’interface',
+  'Interface language': 'Langue de l’interface',
+  'Interface preferences': 'Préférences de l’interface',
+  English: 'Anglais',
+  French: 'Français',
   'Select language': 'Choisir la langue',
   'No books found': 'Aucun livre trouvé',
   'Loading...': 'Chargement…',
-  'Download': 'Télécharger',
-  'Request': 'Demander',
+  Download: 'Télécharger',
+  Request: 'Demander',
   'Search books...': 'Rechercher des livres…',
   'All Languages': 'Toutes les langues',
   'All sources': 'Toutes les sources',
-  'All': 'Tout',
-  'Ebook': 'Livre numérique',
-  'Audiobook': 'Livre audio',
-  'On': 'Activé',
-  'Off': 'Désactivé',
+  All: 'Tout',
+  Ebook: 'Livre numérique',
+  Audiobook: 'Livre audio',
+  On: 'Activé',
+  Off: 'Désactivé',
   'Account updated': 'Compte mis à jour',
   'Passwords do not match': 'Les mots de passe ne correspondent pas',
   'Current password is required': 'Le mot de passe actuel est requis',
   'Password is required': 'Le mot de passe est requis',
 };
 
-const reverseFrench = new Map(Object.entries(french).map(([english, translated]) => [translated, english]));
+const reverseFrench = new Map(
+  Object.entries(french).map(([english, translated]) => [translated, english]),
+);
 let activeLanguage: UiLanguage = 'en';
 
 export function normalizeUiLanguage(value: unknown): UiLanguage {
@@ -133,7 +139,7 @@ export function normalizeUiLanguage(value: unknown): UiLanguage {
 
 export function translateUiText(value: string, language: UiLanguage): string {
   const english = reverseFrench.get(value) ?? value;
-  return language === 'fr' ? french[english] ?? english : english;
+  return language === 'fr' ? (french[english] ?? english) : english;
 }
 
 export function getStoredUiLanguage(): UiLanguage {
@@ -171,12 +177,14 @@ function translateDocument(language: UiLanguage): void {
     node = walker.nextNode();
   }
 
-  document.querySelectorAll<HTMLElement>('[placeholder], [aria-label], [title]').forEach((element) => {
-    for (const attribute of ['placeholder', 'aria-label', 'title'] as const) {
-      const value = element.getAttribute(attribute);
-      if (value) element.setAttribute(attribute, translateUiText(value, language));
-    }
-  });
+  document
+    .querySelectorAll<HTMLElement>('[placeholder], [aria-label], [title]')
+    .forEach((element) => {
+      for (const attribute of ['placeholder', 'aria-label', 'title'] as const) {
+        const value = element.getAttribute(attribute);
+        if (value) element.setAttribute(attribute, translateUiText(value, language));
+      }
+    });
 }
 
 export function initializeUiLanguage(): void {

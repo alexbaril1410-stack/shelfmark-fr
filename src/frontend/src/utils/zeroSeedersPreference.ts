@@ -1,6 +1,9 @@
 export const ZERO_SEEDERS_PREFERENCE_KEY = 'shelfmark-show-zero-seeders';
 
-export function shouldShowZeroSeeders(value: number | null | undefined, showZeroSeeders: boolean): boolean {
+export function shouldShowZeroSeeders(
+  value: number | null | undefined,
+  showZeroSeeders: boolean,
+): boolean {
   return showZeroSeeders || value !== 0;
 }
 
@@ -19,4 +22,3 @@ export function storeShowZeroSeeders(value: boolean): void {
     // Best effort only; the setting remains active for the current session.
   }
 }
-

@@ -7,10 +7,10 @@ import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { useMountEffect } from '../../hooks/useMountEffect';
 import { useSettings } from '../../hooks/useSettings';
 import { getAdminSettingsOverridesSummary, getSettingsTab } from '../../services/api';
+import { InterfacePreferencesBar } from './InterfacePreferencesBar';
 import { SettingsContent } from './SettingsContent';
 import { SettingsHeader } from './SettingsHeader';
 import { SettingsSidebar } from './SettingsSidebar';
-import { InterfacePreferencesBar } from './InterfacePreferencesBar';
 
 interface SettingsModalProps {
   isOpen: boolean;

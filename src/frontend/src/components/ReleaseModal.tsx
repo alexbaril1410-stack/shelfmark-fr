@@ -36,11 +36,6 @@ import {
 import { getNestedValue, toComparableText, toStringValue } from '../utils/objectHelpers';
 import { toBookPlanPayload } from '../utils/packReview';
 import { getReleaseFormats } from '../utils/releaseFormats';
-import {
-  getStoredShowZeroSeeders,
-  shouldShowZeroSeeders,
-  storeShowZeroSeeders,
-} from '../utils/zeroSeedersPreference';
 import { INITIAL_ENTER_ANIMATION, nextEnterAnimation } from '../utils/releaseModalEnterAnimation';
 import { buildReleaseDownloadPayload, type ReleaseDownloadOptions } from '../utils/releasePayload';
 import {
@@ -58,6 +53,11 @@ import {
   FORMAT_SORT_KEY,
   sortReleasesByFormat,
 } from '../utils/releaseSort';
+import {
+  getStoredShowZeroSeeders,
+  shouldShowZeroSeeders,
+  storeShowZeroSeeders,
+} from '../utils/zeroSeedersPreference';
 import { BookDownloadButton } from './BookDownloadButton';
 import { BookTargetDropdown } from './BookTargetDropdown';
 import { Dropdown } from './Dropdown';
@@ -2200,140 +2200,140 @@ const ReleaseModalSession = ({
                     {/* Filter funnel button - stays fixed */}
                     {/* Always available because this menu contains the saved zero-seeder preference. */}
                     <Dropdown
-                        align="right"
-                        widthClassName="w-auto shrink-0"
-                        panelClassName="w-56"
-                        noScrollLimit
-                        renderTrigger={({ isOpen, toggle }) => {
-                          // Active filter: format is set, language is not default, or indexers differ from defaults
-                          const hasLanguageFilter = !(
-                            languageFilter.length === 1 &&
-                            languageFilter[0] === LANGUAGE_OPTION_DEFAULT
-                          );
-                          const supportsIndexerFilter =
-                            columnConfig.supported_filters?.includes('indexer');
-                          // Check if indexer filter differs from defaults (only after initialization)
-                          // Don't show dot while loading or before filter is initialized from defaults
-                          const hasResults = releasesBySource[activeTab]?.releases !== undefined;
-                          const isInitialized = isIndexerFilterInitialized(activeTab);
-                          const defaultIndexers = columnConfig.default_indexers ?? [];
-                          const indexersMatchDefault =
-                            indexerFilter.length === defaultIndexers.length &&
-                            indexerFilter.every((idx) => defaultIndexers.includes(idx));
-                          const hasIndexerFilter =
-                            supportsIndexerFilter &&
-                            hasResults &&
-                            isInitialized &&
-                            !indexersMatchDefault;
-                          const hasActiveFilter =
-                            formatFilter !== '' ||
-                            hasLanguageFilter ||
-                            hasIndexerFilter ||
-                            !showZeroSeeders;
-                          return (
+                      align="right"
+                      widthClassName="w-auto shrink-0"
+                      panelClassName="w-56"
+                      noScrollLimit
+                      renderTrigger={({ isOpen, toggle }) => {
+                        // Active filter: format is set, language is not default, or indexers differ from defaults
+                        const hasLanguageFilter = !(
+                          languageFilter.length === 1 &&
+                          languageFilter[0] === LANGUAGE_OPTION_DEFAULT
+                        );
+                        const supportsIndexerFilter =
+                          columnConfig.supported_filters?.includes('indexer');
+                        // Check if indexer filter differs from defaults (only after initialization)
+                        // Don't show dot while loading or before filter is initialized from defaults
+                        const hasResults = releasesBySource[activeTab]?.releases !== undefined;
+                        const isInitialized = isIndexerFilterInitialized(activeTab);
+                        const defaultIndexers = columnConfig.default_indexers ?? [];
+                        const indexersMatchDefault =
+                          indexerFilter.length === defaultIndexers.length &&
+                          indexerFilter.every((idx) => defaultIndexers.includes(idx));
+                        const hasIndexerFilter =
+                          supportsIndexerFilter &&
+                          hasResults &&
+                          isInitialized &&
+                          !indexersMatchDefault;
+                        const hasActiveFilter =
+                          formatFilter !== '' ||
+                          hasLanguageFilter ||
+                          hasIndexerFilter ||
+                          !showZeroSeeders;
+                        return (
+                          <button
+                            type="button"
+                            onClick={toggle}
+                            className={`hover-surface relative rounded-full p-2.5 text-zinc-500 transition-colors dark:text-zinc-400 ${
+                              isOpen ? 'bg-(--hover-surface)' : ''
+                            }`}
+                            aria-label="Filter releases"
+                          >
+                            <svg
+                              className="h-4 w-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"
+                              />
+                            </svg>
+                            {hasActiveFilter && (
+                              <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-emerald-500" />
+                            )}
+                          </button>
+                        );
+                      }}
+                    >
+                      {({ close }) => (
+                        <div className="space-y-4 p-4">
+                          <label className="flex items-center gap-2 text-sm text-(--text)">
+                            <input
+                              type="checkbox"
+                              checked={showZeroSeeders}
+                              onChange={(event) => {
+                                const next = event.target.checked;
+                                setShowZeroSeeders(next);
+                                storeShowZeroSeeders(next);
+                              }}
+                              className="h-4 w-4 rounded border-zinc-300 text-emerald-600 focus:ring-emerald-500"
+                            />
+                            <span>Show results with 0 seeders</span>
+                          </label>
+                          {columnConfig.supported_filters?.includes('format') &&
+                            availableFormats.length > 0 && (
+                              <DropdownList
+                                label="Format"
+                                options={formatOptions}
+                                value={formatFilter}
+                                onChange={(val) =>
+                                  setFormatFilter(typeof val === 'string' ? val : (val[0] ?? ''))
+                                }
+                                placeholder="All Formats"
+                              />
+                            )}
+                          {columnConfig.supported_filters?.includes('language') && (
+                            <LanguageMultiSelect
+                              label="Language"
+                              options={bookLanguages}
+                              value={languageFilter}
+                              onChange={setLanguageFilter}
+                              defaultLanguageCodes={defaultLanguages}
+                            />
+                          )}
+                          {columnConfig.supported_filters?.includes('indexer') &&
+                            availableIndexers.length > 1 && (
+                              <DropdownList
+                                label="Indexers"
+                                options={availableIndexers.map((idx) => ({
+                                  value: idx,
+                                  label: idx,
+                                }))}
+                                multiple
+                                value={indexerFilter}
+                                onChange={(val) => {
+                                  let nextIndexerFilter: string[] = [];
+                                  if (Array.isArray(val)) {
+                                    nextIndexerFilter = val;
+                                  } else if (val) {
+                                    nextIndexerFilter = [val];
+                                  }
+                                  setIndexerFilter(nextIndexerFilter);
+                                }}
+                                placeholder="All Indexers"
+                              />
+                            )}
+                          {/* Apply button - re-fetch when the source supports server-side filters */}
+                          {(columnConfig.supported_filters?.includes('language') ||
+                            columnConfig.supported_filters?.includes('indexer')) && (
                             <button
                               type="button"
-                              onClick={toggle}
-                              className={`hover-surface relative rounded-full p-2.5 text-zinc-500 transition-colors dark:text-zinc-400 ${
-                                isOpen ? 'bg-(--hover-surface)' : ''
-                              }`}
-                              aria-label="Filter releases"
+                              onClick={() => {
+                                close();
+                                applyCurrentFilters();
+                              }}
+                              className="w-full rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700"
                             >
-                              <svg
-                                className="h-4 w-4"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"
-                                />
-                              </svg>
-                              {hasActiveFilter && (
-                                <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-emerald-500" />
-                              )}
+                              Apply
                             </button>
-                          );
-                        }}
-                      >
-                        {({ close }) => (
-                          <div className="space-y-4 p-4">
-                            <label className="flex items-center gap-2 text-sm text-(--text)">
-                              <input
-                                type="checkbox"
-                                checked={showZeroSeeders}
-                                onChange={(event) => {
-                                  const next = event.target.checked;
-                                  setShowZeroSeeders(next);
-                                  storeShowZeroSeeders(next);
-                                }}
-                                className="h-4 w-4 rounded border-zinc-300 text-emerald-600 focus:ring-emerald-500"
-                              />
-                              <span>Show results with 0 seeders</span>
-                            </label>
-                            {columnConfig.supported_filters?.includes('format') &&
-                              availableFormats.length > 0 && (
-                                <DropdownList
-                                  label="Format"
-                                  options={formatOptions}
-                                  value={formatFilter}
-                                  onChange={(val) =>
-                                    setFormatFilter(typeof val === 'string' ? val : (val[0] ?? ''))
-                                  }
-                                  placeholder="All Formats"
-                                />
-                              )}
-                            {columnConfig.supported_filters?.includes('language') && (
-                              <LanguageMultiSelect
-                                label="Language"
-                                options={bookLanguages}
-                                value={languageFilter}
-                                onChange={setLanguageFilter}
-                                defaultLanguageCodes={defaultLanguages}
-                              />
-                            )}
-                            {columnConfig.supported_filters?.includes('indexer') &&
-                              availableIndexers.length > 1 && (
-                                <DropdownList
-                                  label="Indexers"
-                                  options={availableIndexers.map((idx) => ({
-                                    value: idx,
-                                    label: idx,
-                                  }))}
-                                  multiple
-                                  value={indexerFilter}
-                                  onChange={(val) => {
-                                    let nextIndexerFilter: string[] = [];
-                                    if (Array.isArray(val)) {
-                                      nextIndexerFilter = val;
-                                    } else if (val) {
-                                      nextIndexerFilter = [val];
-                                    }
-                                    setIndexerFilter(nextIndexerFilter);
-                                  }}
-                                  placeholder="All Indexers"
-                                />
-                              )}
-                            {/* Apply button - re-fetch when the source supports server-side filters */}
-                            {(columnConfig.supported_filters?.includes('language') ||
-                              columnConfig.supported_filters?.includes('indexer')) && (
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  close();
-                                  applyCurrentFilters();
-                                }}
-                                className="w-full rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700"
-                              >
-                                Apply
-                              </button>
-                            )}
-                          </div>
-                        )}
-                      </Dropdown>
+                          )}
+                        </div>
+                      )}
+                    </Dropdown>
                   </div>
                 </div>
               )}
@@ -2663,4 +2663,3 @@ export const ReleaseModal = ({ book, onClose, ...rest }: ReleaseModalProps) => {
     />
   );
 };
-
