@@ -36,6 +36,11 @@ import {
 import { getNestedValue, toComparableText, toStringValue } from '../utils/objectHelpers';
 import { toBookPlanPayload } from '../utils/packReview';
 import { getReleaseFormats } from '../utils/releaseFormats';
+import {
+  getStoredShowZeroSeeders,
+  shouldShowZeroSeeders,
+  storeShowZeroSeeders,
+} from '../utils/zeroSeedersPreference';
 import { INITIAL_ENTER_ANIMATION, nextEnterAnimation } from '../utils/releaseModalEnterAnimation';
 import { buildReleaseDownloadPayload, type ReleaseDownloadOptions } from '../utils/releasePayload';
 import {
@@ -781,6 +786,7 @@ const ReleaseModalSession = ({
       ? supportedAudiobookFormats
       : supportedFormats;
   const [isRequestingBook, setIsRequestingBook] = useState(false);
+  const [showZeroSeeders, setShowZeroSeeders] = useState(getStoredShowZeroSeeders);
   const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
   // Multi-book packs: `multiBook` is the manual header toggle (heuristic split for
   // releases we can't inspect); `packReview` holds an inspected pack awaiting approval.
@@ -1093,6 +1099,7 @@ const ReleaseModalSession = ({
 
     // First, filter
     let filtered = releases.filter((r) => {
+      if (!shouldShowZeroSeeders(r.seeders, showZeroSeeders)) return false;
       // Format filtering
       const releaseFormats = getReleaseFormats(r);
 
@@ -1154,6 +1161,7 @@ const ReleaseModalSession = ({
     allSortOptions,
     columnConfig,
     book,
+    showZeroSeeders,
   ]);
 
   // Pre-compute display field lookups to avoid repeated .find() calls in JSX
@@ -2196,7 +2204,10 @@ const ReleaseModalSession = ({
                       (columnConfig.supported_filters?.includes('language') &&
                         bookLanguages.length > 0) ||
                       (columnConfig.supported_filters?.includes('indexer') &&
-                        availableIndexers.length > 1)) && (
+                        availableIndexers.length > 1) ||
+                      (releasesBySource[activeTab]?.releases ?? []).some(
+                        (release) => typeof release.seeders === 'number',
+                      )) && (
                       <Dropdown
                         align="right"
                         widthClassName="w-auto shrink-0"
@@ -2224,7 +2235,10 @@ const ReleaseModalSession = ({
                             isInitialized &&
                             !indexersMatchDefault;
                           const hasActiveFilter =
-                            formatFilter !== '' || hasLanguageFilter || hasIndexerFilter;
+                            formatFilter !== '' ||
+                            hasLanguageFilter ||
+                            hasIndexerFilter ||
+                            !showZeroSeeders;
                           return (
                             <button
                               type="button"
@@ -2256,6 +2270,23 @@ const ReleaseModalSession = ({
                       >
                         {({ close }) => (
                           <div className="space-y-4 p-4">
+                            {(releasesBySource[activeTab]?.releases ?? []).some(
+                              (release) => typeof release.seeders === 'number',
+                            ) && (
+                              <label className="flex items-center gap-2 text-sm text-(--text)">
+                                <input
+                                  type="checkbox"
+                                  checked={showZeroSeeders}
+                                  onChange={(event) => {
+                                    const next = event.target.checked;
+                                    setShowZeroSeeders(next);
+                                    storeShowZeroSeeders(next);
+                                  }}
+                                  className="h-4 w-4 rounded border-zinc-300 text-emerald-600 focus:ring-emerald-500"
+                                />
+                                <span>Show results with 0 seeders</span>
+                              </label>
+                            )}
                             {columnConfig.supported_filters?.includes('format') &&
                               availableFormats.length > 0 && (
                                 <DropdownList
@@ -2646,3 +2677,4 @@ export const ReleaseModal = ({ book, onClose, ...rest }: ReleaseModalProps) => {
     />
   );
 };
+

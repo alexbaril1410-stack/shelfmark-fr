@@ -5,12 +5,14 @@ import { BrowserRouter } from 'react-router-dom';
 import { App } from './App';
 import { SocketProvider } from './contexts/SocketContext';
 import { getBasePath } from './utils/basePath';
+import { initializeUiLanguage } from './utils/uiLanguage';
 
 const root = document.getElementById('root');
 if (!root) throw new Error('Root element not found');
 
 const basePath = getBasePath();
 const routerBase = basePath === '/' ? undefined : basePath;
+initializeUiLanguage();
 
 createRoot(root).render(
   <StrictMode>
@@ -21,3 +23,4 @@ createRoot(root).render(
     </BrowserRouter>
   </StrictMode>,
 );
+

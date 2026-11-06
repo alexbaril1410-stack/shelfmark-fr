@@ -13,6 +13,7 @@ import type { ActivityStatusCounts } from '../utils/activityBadge';
 import { getActivityBadgeState } from '../utils/activityBadge';
 import { withBasePath } from '../utils/basePath';
 import { isRecord } from '../utils/objectHelpers';
+import { getStoredUiLanguage, setUiLanguage, type UiLanguage } from '../utils/uiLanguage';
 import { DropdownList } from './DropdownList';
 import type { SearchBarHandle } from './SearchBar';
 import { SearchBar } from './SearchBar';
@@ -147,6 +148,7 @@ export const Header = forwardRef<HeaderHandle, HeaderProps>(
       },
     }));
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [uiLanguage, setSelectedUiLanguage] = useState<UiLanguage>(getStoredUiLanguage);
     const [isClosing, setIsClosing] = useState(false);
     const [shouldAnimateIn, setShouldAnimateIn] = useState(false);
     let dropdownAnimationClass = '';
@@ -538,6 +540,23 @@ export const Header = forwardRef<HeaderHandle, HeaderProps>(
                 {/* Settings Button */}
                 {renderSettingsButton('menu')}
 
+                <label className="flex items-center justify-between gap-3 px-4 py-2 text-sm text-slate-700 dark:text-slate-200">
+                  <span>UI language</span>
+                  <select
+                    aria-label="UI language"
+                    value={uiLanguage}
+                    onChange={(event) => {
+                      const language = event.target.value === 'fr' ? 'fr' : 'en';
+                      setSelectedUiLanguage(language);
+                      setUiLanguage(language);
+                    }}
+                    className="rounded-md border border-(--border-muted) bg-(--bg) px-2 py-1 text-(--text)"
+                  >
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                  </select>
+                </label>
+
                 {/* Debug Buttons */}
                 {debug && (
                   <>
@@ -760,3 +779,4 @@ export const Header = forwardRef<HeaderHandle, HeaderProps>(
     );
   },
 );
+

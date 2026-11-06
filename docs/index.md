@@ -18,6 +18,7 @@ Use the guides below to set up the app, connect your library tools, and understa
 - [OIDC](oidc.md)
 - [API Access](api-access.md)
 - [URL Search Parameters](url-search-parameters.md)
+- [Interface Preferences](interface-preferences.md)
 - [MyAnonamouse Enrichment](myanonamouse-enrichment.md)
 - [Library Check](library-check.md)
 - [Custom Scripts](custom-scripts.md)
@@ -29,3 +30,4 @@ Use the guides below to set up the app, connect your library tools, and understa
 ## Help
 
 - [Troubleshooting](troubleshooting.md)
+

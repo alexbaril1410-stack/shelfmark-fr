@@ -16,6 +16,7 @@ Metadata providers allow searching for books and retrieving detailed metadata (t
 | **DNB** | No | Deutsche Nationalbibliothek, the German national library catalog. Best coverage for German-language editions |
 | **Databáze knih** | No | Czech and Slovak book catalog. It has no public API, so Shelfmark reads the web pages |
 | **Moly.hu** | No | Hungarian book catalog, read from the web pages. No API key required |
+| **Audible.fr** | No | Audiobook catalog search for France; undocumented endpoint, opt-in and rate limited |
 
 
 ## Core Components
@@ -325,3 +326,4 @@ Provider settings are stored in `CONFIG_DIR/plugins/<provider_name>.json` and ma
 | `METADATA_PROVIDER` | `""` | Active metadata provider name |
 | `METADATA_CACHE_SEARCH_TTL` | `3600` | Search cache TTL in seconds |
 | `METADATA_CACHE_BOOK_TTL` | `86400` | Book lookup cache TTL in seconds |
+
